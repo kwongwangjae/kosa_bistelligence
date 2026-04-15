@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springbootexample.database.dao.BoardDao">
+    <insert id="insert" parameterType="Board">
+        <selectKey keyProperty="bno" resultType="int">
+            select board_bno_seq.nextval from dual
+        </selectKey>
+        insert into board
+        (bno, btitle, bcontent, bdate, bwriter, bhintcount, battachoname, battachsname, battachtype, battachdata)
+        values
+        (#{bno}, #{btitle}, #{bcontent}, #{bdate}, #{bwriter}, #{bhintcount}, #{battachoname}, #{battachsname},
+        #{battachtype}, #{battachdata})
+    </insert>
+
+    <update id="update" parameterType="Board">
+        update board
+        set
+        btitle = #{btitle},
+        bcontent = #{bcontent},
+        bdate = #{bdate},
+        bwriter = #{bwriter},
+        <if test="battachoname != null">
+            battachoname = #{battachoname},
+            bhintcount = #{bhintcount},
+            battachsname = #{battachsname},
+            battachtype = #{battachtype},
+            battachdata = #{battachdata}
+        </if>
+        where bno = #{bno}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        delete from board
+        where bno = #{value}
+    </delete>
+
+    <select id="selectByBno" parameterType="int" resultType="Board">
+        select bno, btitle, bcontent, bdate, bwriter, bhintcount, battachoname, battachsname, battachtype, battachdata
+        from board
+        where bno = #{value}
+    </select>
+</mapper>

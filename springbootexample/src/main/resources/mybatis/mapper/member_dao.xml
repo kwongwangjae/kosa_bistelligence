@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springbootexample.database.dao.MemberDao">
+    <insert id="insert" parameterType="Member">
+        insert into member
+        (mid, mname, mpassword, memail, menaled, mrole)
+        values
+        (#{mid}, #{mname}, #{mpassword}, #{memail}, #{menaled}, #{mrole})
+    </insert>
+
+    <delete id="delete" parameterType="String">
+        delete from member
+        where mid = #{value}
+    </delete>
+
+    <update id="update" parameterType="Member">
+        update member
+        set
+            mname = #{mname},
+            mpassword = #{mpassword},
+            memail = #{memail},
+            menaled = #{menaled},
+            mrole = #{mrole}
+        where mid = #{mid}
+    </update>
+
+    <select id="selectByMid" parameterType="String" resultType="Member">
+        select mid, mname, mpassword, memail, menaled, mrole
+        from member
+        where mid = #{value}
+    </select>
+</mapper>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <!-- 컬럼 이름이 _로 연결되어 있을 때 자바 필드는 캐멀 케이스로 해라  -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!-- 자바의 null을 SQL의 NULL로 매핑  -->
+        <setting name="jdbcTypeForNull" value="NULL"/>
+    </settings>
+    <typeAliases>
+        <typeAlias alias="Member" type="com.springbootexample.database.entity.Member"/>
+        <typeAlias alias="Board" type="com.springbootexample.database.entity.Board"/>
+    </typeAliases>
+</configuration>

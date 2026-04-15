@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: springbootexample
+
+  datasource:
+    type: oracle.ucp.jdbc.PoolDataSource
+    driver-class-name: oracle.jdbc.OracleDriver
+    # localhost -> 192.168.5.41 이렇게 포트로 해야 다은 팀원들이이랑 이용 가능
+    url: jdbc:oracle:thin:@//localhost:1521/ORCL
+    username: user_spring
+    password: oracle
+    oracleucp:
+      connection-pool-name: springbootexample-pool
+      initial-pool-size: 3
+      min-pool-size: 3
+      max-pool-size: 10
+      inactive-connection-timeout: 60
+      timeout-check-interval: 5
+      validate-connection-on-borrow: true
+
+mybatis:
+  config-location: classpath:mybatis/config/mybatis-config.xml
+  mapper-locations: classpath:mybatis/mapper/*.xml
