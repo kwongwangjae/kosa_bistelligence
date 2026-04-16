@@ -5,9 +5,9 @@
 <mapper namespace="com.springbootexample.database.dao.MemberDao">
     <insert id="insert" parameterType="Member">
         insert into member
-        (mid, mname, mpassword, memail, menaled, mrole)
+        (mid, mname, mpassword, memail, menabled, mrole)
         values
-        (#{mid}, #{mname}, #{mpassword}, #{memail}, #{menaled}, #{mrole})
+        (#{mid}, #{mname}, #{mpassword}, #{memail}, #{menabled}, #{mrole})
     </insert>
 
     <delete id="delete" parameterType="String">
@@ -21,13 +21,13 @@
             mname = #{mname},
             mpassword = #{mpassword},
             memail = #{memail},
-            menaled = #{menaled},
+            menabled = #{menabled},
             mrole = #{mrole}
         where mid = #{mid}
     </update>
 
     <select id="selectByMid" parameterType="String" resultType="Member">
-        select mid, mname, mpassword, memail, menaled, mrole
+        select mid, mname, mpassword, memail, menabled, mrole
         from member
         where mid = #{value}
     </select>

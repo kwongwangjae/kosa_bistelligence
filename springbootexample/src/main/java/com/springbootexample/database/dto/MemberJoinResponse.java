@@ -7,6 +7,6 @@ public class MemberJoinResponse {
 	private String mid;
 	private String mname;
 	private String memail;
-	private boolean menaled;
+	private boolean menabled;
 	private String mrole;
 }

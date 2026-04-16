@@ -7,10 +7,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.springbootexample.database.dto.MemberJoinRequest;
 import com.springbootexample.database.dto.MemberJoinResponse;
+import com.springbootexample.database.service.MemberService;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/database/member")
+@RequiredArgsConstructor
 public class MemberController {
+
+	private final MemberService memberService;
 
 	@PostMapping("/join")
 	public MemberJoinResponse join(@RequestBody MemberJoinRequest request) {
@@ -18,8 +24,10 @@ public class MemberController {
 		response.setMid(request.getMid());
 		response.setMemail(request.getMemail());
 		response.setMname(request.getMname());
-		response.setMenaled(true);
+		response.setMenabled(true);
 		response.setMrole("USER_ROLE");
+
+		memberService.join(request);
 
 		return response;
 	}
