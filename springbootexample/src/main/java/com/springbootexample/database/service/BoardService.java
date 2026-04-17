@@ -15,6 +15,7 @@ import com.springbootexample.database.dto.BoardWriteRequest;
 import com.springbootexample.database.dto.BoardWriteResponse;
 import com.springbootexample.database.dto.Pager;
 import com.springbootexample.database.entity.Board;
+import com.springbootexample.database.service.attachment.BoardAttachmentStorage;
 
 @Service
 public class BoardService {
@@ -24,11 +25,15 @@ public class BoardService {
 	@Autowired
 	private BoardDao boardDao;
 
+	@Autowired
+	private BoardAttachmentStorage boardAttachmentStorage;
+
 	public BoardListResponse list(int pageNo) {
 		int totalRows = boardDao.count();
 		Pager pager = new Pager(ROWS_PER_PAGE, PAGES_PER_GROUP, totalRows, pageNo);
 		List<BoardReadResponse> boards = boardDao.selectByPage(pager)
 			.stream()
+			.peek(boardAttachmentStorage::loadAttachmentData)
 			.map(this::toReadResponse)
 			.toList();
 
@@ -45,35 +50,47 @@ public class BoardService {
 			board.setBdate(LocalDateTime.now());
 		}
 
+		boardAttachmentStorage.prepareForCreate(board);
+
 		int insert = boardDao.insert(board);
 
 		if(insert == 0)
 			throw new IllegalArgumentException("잘못 등록");
 
+		boardAttachmentStorage.loadAttachmentData(board);
 		return toWriteResponse(board);
 	}
 
 	public BoardReadResponse read(int bno) {
-		return toReadResponse(findByBno(bno));
+		Board board = findByBno(bno);
+		boardAttachmentStorage.loadAttachmentData(board);
+		return toReadResponse(board);
 	}
 
 	public BoardUpdateResponse update(int bno, BoardUpdateRequest request) {
 		Board savedBoard = findByBno(bno);
 		Board board = toBoard(bno, request, savedBoard);
 
+		boardAttachmentStorage.prepareForUpdate(board, savedBoard);
+
 		int update = boardDao.update(board);
 
 		if(update == 0)
 			throw new IllegalArgumentException("잘못 수정");
 
-		return toUpdateResponse(findByBno(bno));
+		Board updatedBoard = findByBno(bno);
+		boardAttachmentStorage.loadAttachmentData(updatedBoard);
+		return toUpdateResponse(updatedBoard);
 	}
 
 	public void delete(int bno) {
+		Board savedBoard = findByBno(bno);
 		int delete = boardDao.delete(bno);
 
 		if(delete == 0)
 			throw new IllegalArgumentException("잘못 삭제");
+
+		boardAttachmentStorage.deleteAttachment(savedBoard);
 	}
 
 	private Board findByBno(int bno) {
@@ -92,6 +109,7 @@ public class BoardService {
 		board.setBdate(request.getBdate());
 		board.setBwriter(request.getBwriter());
 		board.setBhintcount(request.getBhintcount() == null ? 0 : request.getBhintcount());
+		board.setBattach(request.getBattach());
 		board.setBattachoname(request.getBattachoname());
 		board.setBattachsname(request.getBattachsname());
 		board.setBattachtype(request.getBattachtype());
@@ -107,6 +125,7 @@ public class BoardService {
 		board.setBdate(request.getBdate() == null ? savedBoard.getBdate() : request.getBdate());
 		board.setBwriter(valueOrDefault(request.getBwriter(), savedBoard.getBwriter()));
 		board.setBhintcount(request.getBhintcount() == null ? savedBoard.getBhintcount() : request.getBhintcount());
+		board.setBattach(request.getBattach());
 		board.setBattachoname(request.getBattachoname());
 		board.setBattachsname(request.getBattachsname());
 		board.setBattachtype(request.getBattachtype());

@@ -14,6 +14,8 @@ public class Board {
 	private LocalDateTime bdate;
 	private String bwriter;
 	private int bhintcount;
+
+	private MultipartFile battach;
 	private String battachoname;
 	private String battachsname;
 	private String battachtype;

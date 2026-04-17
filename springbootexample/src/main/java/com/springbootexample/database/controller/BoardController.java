@@ -1,12 +1,13 @@
 package com.springbootexample.database.controller;
 
+import org.springframework.http.MediaType;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -34,8 +35,8 @@ public class BoardController {
 		return boardService.list(pageNo);
 	}
 
-	@PostMapping
-	public BoardWriteResponse write(@RequestBody BoardWriteRequest request) {
+	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public BoardWriteResponse write(@ModelAttribute BoardWriteRequest request) {
 		return boardService.write(request);
 	}
 
@@ -44,8 +45,8 @@ public class BoardController {
 		return boardService.read(bno);
 	}
 
-	@PutMapping("/{bno}")
-	public BoardUpdateResponse update(@PathVariable int bno, @RequestBody BoardUpdateRequest request) {
+	@PutMapping(value = "/{bno}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public BoardUpdateResponse update(@PathVariable int bno, @ModelAttribute BoardUpdateRequest request) {
 		return boardService.update(bno, request);
 	}
 

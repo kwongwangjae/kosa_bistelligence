@@ -21,3 +21,12 @@ spring:
 mybatis:
   config-location: classpath:mybatis/config/mybatis-config.xml
   mapper-locations: classpath:mybatis/mapper/*.xml
+
+app:
+  board:
+    attachment:
+      # 방법 1: 파일 시스템에 저장하고 DB에는 파일 메타데이터만 저장
+      # mode: filesystem
+      # 방법 2: DB(BLOB/byte[])에 파일 데이터를 직접 저장
+      mode: database
+      upload-dir: uploads/board
