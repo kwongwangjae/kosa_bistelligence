@@ -3,8 +3,27 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.springbootexample.database.dao.BoardDao">
+    <select id="count" resultType="int">
+        select count(*)
+        from board
+    </select>
+
+    <select id="selectByPage" parameterType="Pager" resultType="Board">
+        select bno, btitle, bcontent, bdate, bwriter, bhintcount, battachoname, battachsname, battachtype, battachdata
+        from (
+            select rownum rn, bno, btitle, bcontent, bdate, bwriter, bhintcount, battachoname, battachsname, battachtype, battachdata
+            from (
+                select bno, btitle, bcontent, bdate, bwriter, bhintcount, battachoname, battachsname, battachtype, battachdata
+                from board
+                order by bno desc
+            )
+            where rownum <![CDATA[<=]]> #{endRowNo}
+        )
+        where rn <![CDATA[>=]]> #{startRowNo}
+    </select>
+
     <insert id="insert" parameterType="Board">
-        <selectKey keyProperty="bno" resultType="int">
+        <selectKey keyProperty="bno" resultType="int" order="BEFORE">
             select board_bno_seq.nextval from dual
         </selectKey>
         insert into board
@@ -16,18 +35,19 @@
 
     <update id="update" parameterType="Board">
         update board
-        set
-        btitle = #{btitle},
-        bcontent = #{bcontent},
-        bdate = #{bdate},
-        bwriter = #{bwriter},
-        <if test="battachoname != null">
-            battachoname = #{battachoname},
+        <set>
+            btitle = #{btitle},
+            bcontent = #{bcontent},
+            bdate = #{bdate},
+            bwriter = #{bwriter},
             bhintcount = #{bhintcount},
-            battachsname = #{battachsname},
-            battachtype = #{battachtype},
-            battachdata = #{battachdata}
-        </if>
+            <if test="battachoname != null and battachoname != ''">
+                battachoname = #{battachoname},
+                battachsname = #{battachsname},
+                battachtype = #{battachtype},
+                battachdata = #{battachdata},
+            </if>
+        </set>
         where bno = #{bno}
     </update>
 

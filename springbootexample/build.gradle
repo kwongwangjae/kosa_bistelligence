@@ -29,6 +29,7 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testAnnotationProcessor 'org.projectlombok:lombok'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.security:spring-security-crypto'
 
     // MyBatis 스타터 및 Oracle JDBC/UCP 패키지 추가
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'

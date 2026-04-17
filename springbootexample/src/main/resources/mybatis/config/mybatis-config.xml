@@ -12,5 +12,6 @@
     <typeAliases>
         <typeAlias alias="Member" type="com.springbootexample.database.entity.Member"/>
         <typeAlias alias="Board" type="com.springbootexample.database.entity.Board"/>
+        <typeAlias alias="Pager" type="com.springbootexample.database.dto.Pager"/>
     </typeAliases>
 </configuration>
