@@ -1,6 +1,5 @@
 package com.springbootexample.database.controller;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -8,9 +7,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.springbootexample.auth.annotation.CheckAccessToken;
 import com.springbootexample.database.dto.MemberJoinRequest;
 import com.springbootexample.database.dto.MemberJoinResponse;
 import com.springbootexample.database.dto.MemberLoginRequest;
@@ -40,16 +39,19 @@ public class MemberController {
 		return memberService.login(request);
 	}
 
+	@CheckAccessToken
 	@GetMapping("/{mid}")
 	public MemberReadResponse read(@PathVariable String mid) {
 		return memberService.read(mid);
 	}
 
+	@CheckAccessToken
 	@PutMapping("/{mid}")
 	public MemberUpdateResponse update(@PathVariable String mid, @RequestBody MemberUpdateRequest request) {
 		return memberService.update(mid, request);
 	}
 
+	@CheckAccessToken
 	@DeleteMapping("/{mid}")
 	public MemberRemoveResponse delete(@PathVariable String mid) {
 		boolean delete = memberService.delete(mid);

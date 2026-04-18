@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.springbootexample.auth.annotation.CheckAccessToken;
 import com.springbootexample.database.dto.BoardListResponse;
 import com.springbootexample.database.dto.BoardReadResponse;
 import com.springbootexample.database.dto.BoardUpdateRequest;
@@ -35,6 +36,7 @@ public class BoardController {
 		return boardService.list(pageNo);
 	}
 
+	@CheckAccessToken
 	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public BoardWriteResponse write(@ModelAttribute BoardWriteRequest request) {
 		return boardService.write(request);
@@ -45,11 +47,13 @@ public class BoardController {
 		return boardService.read(bno);
 	}
 
+	@CheckAccessToken
 	@PutMapping(value = "/{bno}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public BoardUpdateResponse update(@PathVariable int bno, @ModelAttribute BoardUpdateRequest request) {
 		return boardService.update(bno, request);
 	}
 
+	@CheckAccessToken
 	@DeleteMapping("/{bno}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable int bno) {

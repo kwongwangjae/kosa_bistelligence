@@ -23,6 +23,10 @@ mybatis:
   mapper-locations: classpath:mybatis/mapper/*.xml
 
 app:
+  jwt:
+    issuer: springbootexample
+    secret-key: springbootexample-access-token-secret-key-2026
+    access-token-expiration-seconds: 3600
   board:
     attachment:
       # 방법 1: 파일 시스템에 저장하고 DB에는 파일 메타데이터만 저장

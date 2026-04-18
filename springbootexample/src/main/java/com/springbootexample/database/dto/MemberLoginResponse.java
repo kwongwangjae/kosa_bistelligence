@@ -9,4 +9,5 @@ public class MemberLoginResponse {
 	private String memail;
 	private boolean menabled;
 	private String mrole;
+	private String accessToken;
 }

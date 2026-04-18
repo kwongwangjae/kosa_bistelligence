@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.springbootexample.auth.jwt.JwtTokenProvider;
 import com.springbootexample.database.dao.MemberDao;
 import com.springbootexample.database.dto.MemberJoinRequest;
 import com.springbootexample.database.dto.MemberJoinResponse;
@@ -19,6 +20,9 @@ public class MemberService {
 
 	@Autowired
 	private MemberDao memberDao;
+
+	@Autowired
+	private JwtTokenProvider jwtTokenProvider;
 
 	public MemberJoinResponse join(MemberJoinRequest request) {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -116,6 +120,7 @@ public class MemberService {
 		response.setMemail(member.getMemail());
 		response.setMenabled(member.isMenabled());
 		response.setMrole(member.getMrole());
+		response.setAccessToken(jwtTokenProvider.createAccessToken(member));
 		return response;
 	}
 
