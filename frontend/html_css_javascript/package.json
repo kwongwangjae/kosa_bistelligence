@@ -1,0 +1,13 @@
+{
+  "name": "html-css-javascript",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npx --yes live-server",
+    "serve": "npx --yes serve ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
