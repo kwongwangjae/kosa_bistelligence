@@ -12,7 +12,7 @@ export default function AppHeader() {
             <div className="text-white">
                 <Image src={"/react-logo.svg"} width={50} height={50} alt="" className="align-middle"/>
                 {" "}
-                Text1
+                React
             </div>
             </Link>
         

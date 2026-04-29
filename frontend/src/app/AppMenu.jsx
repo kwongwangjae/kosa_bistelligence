@@ -100,10 +100,13 @@ async function AppMenu() {
                 <Link href="/Ch03PropsAndState/Exam05RepeatUpdate">Exam05RepeatUpdate</Link>
               </li>
               <li className="nav-item">
-                <Link href="/Ch03PropsAndState/Exam06StateInitFun">Exam06StateInitFun</Link>
+                <Link href="/Ch03PropsAndState/Exam06UseEffect">Exam06UseEffect</Link>
               </li>
               <li className="nav-item">
-                <Link href="/Ch03PropsAndState/Exam07StateToProp">Exam07StateToProp</Link>
+                <Link href="/Ch03PropsAndState/Exam07StateInitFun">Exam07StateInitFun</Link>
+              </li>
+              <li className="nav-item">
+                <Link href="/Ch03PropsAndState/Exam08StateToProp">Exam08StateToProp</Link>
               </li>
             </ul>
           </div>
