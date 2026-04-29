@@ -124,7 +124,10 @@ async function AppMenu() {
           <div className="accordion-body">
             <ul className="nav flex-column">
               <li className="nav-item">
-                <Link href="/Ch04LifeCycle">Ch04LifeCycle</Link>
+                <Link href="/Ch04LifeCycle/Exam01CallbackMethod">Exam01CallbackMethod</Link>
+              </li>
+              <li className="nav-item">
+                <Link href="/Ch04LifeCycle/Exam02UseEffect">Exam02UseEffect</Link>
               </li>
             </ul>
           </div>
@@ -217,7 +220,22 @@ async function AppMenu() {
                 <Link href="/Ch08RestAPI/Exam02Auth">Exam02Auth</Link>
               </li>
               <li className="nav-item">
-                <Link href="/Ch08RestAPI/Exam03Board/BoardList">Exam03Board</Link>
+                <Link href="/Ch08RestAPI/Exam03Board/BoardList">Exam03Board/BoardList</Link>
+              </li>
+              <li className="nav-item">
+                <Link href="/Ch08RestAPI/Exam03Board/BoardWrite">Exam03Board/BoardWrite</Link>
+              </li>
+              <li className="nav-item">
+                <Link href="/Ch08RestAPI/Exam03Board/BoardRead">Exam03Board/BoardRead</Link>
+              </li>
+              <li className="nav-item">
+                <Link href="/Ch08RestAPI/Exam03Board/BoardUpdate">Exam03Board/BoardUpdate</Link>
+              </li>
+              <li className="nav-item">
+                <Link href="/Ch08RestAPI/Exam04Member/Join">Exam04Member/Join</Link>
+              </li>
+              <li className="nav-item">
+                <Link href="/Ch08RestAPI/Exam04Member/Login">Exam04Member/Login</Link>
               </li>
             </ul>
           </div>
@@ -228,4 +246,4 @@ async function AppMenu() {
     )
 }
 
-export default AppMenu
+export default AppMenu;
