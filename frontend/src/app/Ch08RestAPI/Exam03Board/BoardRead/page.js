@@ -1,41 +1,82 @@
 "use client"
 import { useSearchParams, useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
-import Link from "next/link";
+import { useState, useEffect, useRef } from "react";
+import { getBoard, createBoard } from "@/apis/BoardApi";
 
 function BoardRead() {
     const searchParams = useSearchParams();
     const bno = searchParams.get("bno");
     const router = useRouter();
-    const [board, setBoard] = useState(null);
+    const [board, setBoard] = useState({ btitle: "", bcontent: "" });
+    const inputFile = useRef();
 
     useEffect(() => {
-        // Mock fetch
-        setBoard({
-            bno: bno,
-            btitle: "Title for " + bno,
-            bcontent: "Content for " + bno + ". This is a detailed description.",
-            bwriter: "user1",
-            bdate: "2024-04-29"
-        });
+        const fetchBoard = async () => {
+            try {
+                const response = await getBoard(bno);
+                setBoard(response.data);
+            } catch (error) {
+                console.error("Failed to fetch board:", error);
+                // Fallback mock
+                setBoard({
+                    btitle: "서버 연결 실패 - 샘플 제목",
+                    bcontent: "서버 연결 실패 - 샘플 내용"
+                });
+            }
+        };
+        if (bno) {
+            fetchBoard();
+        }
     }, [bno]);
 
-    if (!board) return <div>Loading...</div>;
+    const handleChange = (e) => {
+        setBoard({ ...board, [e.target.name]: e.target.value });
+    };
+
+    const handleAdd = async (e) => {
+        e.preventDefault();
+        try {
+            const formData = new FormData();
+            formData.append("btitle", board.btitle);
+            formData.append("bcontent", board.bcontent);
+            if (inputFile.current.files.length > 0) {
+                formData.append("battach", inputFile.current.files[0]);
+            }
+            await createBoard(formData);
+            alert("게시물이 성공적으로 추가되었습니다.");
+            router.push("/Ch08RestAPI/Exam03Board/BoardList");
+        } catch (error) {
+            console.error("Failed to add board:", error);
+            alert("게시물 추가에 실패했습니다.");
+        }
+    };
+
+    const handleCancel = () => {
+        router.back();
+    };
 
     return (
         <div className="card">
             <div className="card-header">Board Read</div>
             <div className="card-body">
-                <p><strong>No:</strong> {board.bno}</p>
-                <p><strong>Title:</strong> {board.btitle}</p>
-                <p><strong>Writer:</strong> {board.bwriter}</p>
-                <p><strong>Date:</strong> {board.bdate}</p>
-                <hr/>
-                <p>{board.bcontent}</p>
-                <hr/>
-                <Link href={`/Ch08RestAPI/Exam03Board/BoardUpdate?bno=${board.bno}`} className="btn btn-warning btn-sm me-2">Update</Link>
-                <button className="btn btn-danger btn-sm me-2" onClick={() => { alert("Deleted!"); router.push("/Ch08RestAPI/Exam03Board/BoardList"); }}>Delete</button>
-                <button className="btn btn-secondary btn-sm" onClick={() => router.push("/Ch08RestAPI/Exam03Board/BoardList")}>List</button>
+                <div>
+                    <div className="mb-2">
+                        <label htmlFor="btitle" className="form-label">btitle</label>
+                        <input type="text" className="form-control" name="btitle" value={board.btitle} onChange={handleChange}/>
+                    </div>
+                    <div className="mb-2">
+                        <label htmlFor="bcontent" className="form-label">bcontent</label>
+                        <input type="text" className="form-control" name="bcontent" value={board.bcontent} onChange={handleChange}/>
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="battach" className="form-label">battach</label>
+                        <input type="file" className="form-control" name="battach" ref={inputFile}/>
+                    </div>
+                    <div className="d-flex justify-content-center">
+                        <button className="btn btn-primary btn-sm me-2" onClick={handleAdd}>추가</button>
+                        <button className="btn btn-primary btn-sm" onClick={handleCancel}>취소</button>
+                    </div>
+                </div>
             </div>
         </div>
     );

@@ -1,38 +1,63 @@
 "use client"
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
+import { createBoard } from "@/apis/BoardApi";
 
 function BoardWrite() {
     const [board, setBoard] = useState({ btitle: "", bcontent: "" });
     const router = useRouter();
+    const inputFile = useRef();
 
     const handleChange = (e) => {
         setBoard({ ...board, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleAdd = async (e) => {
         e.preventDefault();
-        console.log("Saving board:", board);
-        alert("Board saved!");
-        router.push("/Ch08RestAPI/Exam03Board/BoardList");
+        try {
+            const formData = new FormData();
+            formData.append("btitle", board.btitle);
+            formData.append("bcontent", board.bcontent);
+            
+            if (inputFile.current.files.length > 0) {
+                formData.append("battach", inputFile.current.files[0]);
+            }
+
+            await createBoard(formData);
+            alert("게시물이 성공적으로 추가되었습니다.");
+            router.push("/Ch08RestAPI/Exam03Board/BoardList");
+        } catch (error) {
+            console.error("Failed to add board:", error);
+            alert("게시물 추가에 실패했습니다.");
+        }
+    };
+
+    const handleCancel = () => {
+        router.back();
     };
 
     return (
         <div className="card">
             <div className="card-header">Board Write</div>
             <div className="card-body">
-                <form onSubmit={handleSubmit}>
-                    <div className="mb-3">
-                        <label className="form-label">Title</label>
-                        <input type="text" name="btitle" className="form-control" value={board.btitle} onChange={handleChange} required />
+                <div>
+                    <div className="mb-2">
+                        <label htmlFor="btitle" className="form-label">btitle</label>
+                        <input type="text" className="form-control" name="btitle" value={board.btitle} onChange={handleChange}/>
+                    </div>
+                    <div className="mb-2">
+                        <label htmlFor="bcontent" className="form-label">bcontent</label>
+                        <input type="text" className="form-control" name="bcontent" value={board.bcontent} onChange={handleChange}/>
                     </div>
                     <div className="mb-3">
-                        <label className="form-label">Content</label>
-                        <textarea name="bcontent" className="form-control" rows="5" value={board.bcontent} onChange={handleChange} required></textarea>
+                        <label htmlFor="battach" className="form-label">battach</label>
+                        <input type="file" className="form-control" name="battach" ref={inputFile}/>
                     </div>
-                    <button type="submit" className="btn btn-primary btn-sm me-2">Save</button>
-                    <button type="button" className="btn btn-secondary btn-sm" onClick={() => router.back()}>Cancel</button>
-                </form>
+                    <div className="d-flex justify-content-center">
+                        <button className="btn btn-primary btn-sm me-2" onClick={handleAdd}>추가</button>
+                        <button className="btn btn-primary btn-sm" onClick={handleCancel}>취소</button>
+                    </div>
+                </div>
             </div>
         </div>
     );
