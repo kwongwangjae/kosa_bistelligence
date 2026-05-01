@@ -1,6 +1,7 @@
 "use client"
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { join } from "@/apis/memberApi";
 
 function Join() {
     const [member, setMember] = useState({ mid: "", mname: "", mpassword: "" });
@@ -10,11 +11,16 @@ function Join() {
         setMember({ ...member, [e.target.name]: e.target.value });
     };
 
-    const handleJoin = (e) => {
+    const handleJoin = async (e) => {
         e.preventDefault();
-        console.log("Joining member:", member);
-        alert("Welcome! You have successfully joined.");
-        router.push("/Ch08RestAPI/Exam04Member/Login");
+        try {
+            await join(member);
+            alert("가입을 축하합니다! 로그인 해주세요.");
+            router.push("/Ch08RestAPI/Exam04Member/Login");
+        } catch (error) {
+            console.error("Join failed:", error);
+            alert("회원 가입 실패: 다시 시도해주세요.");
+        }
     };
 
     return (
