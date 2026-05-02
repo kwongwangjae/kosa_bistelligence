@@ -231,6 +231,15 @@ async function AppMenu() {
               <li className="nav-item">
                 <Link href="/Ch08RestAPI/Exam03Board/BoardUpdate">Exam03Board/BoardUpdate</Link>
               </li>
+              <li className="nav-item border-top mt-2 pt-2">
+                <span className="text-muted small ps-2">Member Management</span>
+              </li>
+              <li className="nav-item">
+                <Link href="/Ch08RestAPI/Exam04Member/Join">Exam04Member/Join</Link>
+              </li>
+              <li className="nav-item">
+                <Link href="/Ch08RestAPI/Exam04Member/Login">Exam04Member/Login</Link>
+              </li>
             </ul>
           </div>
         </div>
