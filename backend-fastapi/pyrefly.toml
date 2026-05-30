@@ -1,0 +1,15 @@
+project-includes = [
+    "**/*.py",
+]
+
+project-excludes = [
+    ".venv/**",
+    "**/__pycache__/**",
+]
+
+search-path = [
+    ".",
+]
+
+python-interpreter-path = "/Users/gwongwangjae/IdeaProjects/kosa_bistelligence/backend-fastapi/.venv/bin/python"
+
