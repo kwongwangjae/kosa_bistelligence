@@ -99,3 +99,6 @@ htmlcov/
 uploads/
 tmp/
 temp/
+
+# Large files exceeding GitHub's 100MB limit
+python/chap03/sec03_while.ipynb
